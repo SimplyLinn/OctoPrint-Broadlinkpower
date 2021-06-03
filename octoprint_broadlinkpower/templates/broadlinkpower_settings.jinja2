@@ -1,0 +1,34 @@
+<form class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label" for="broadlinkpower-mac">{{ _('MAC Address of broadlink switch') }}</label>
+        <div class="controls">
+            <input type="text" id="broadlinkpower-mac" class="input-block-level" data-bind="value: $root.settings.plugins.broadlinkpower.mac">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="broadlinkpower-search-ip">{{ _('Network broadcast ip (alternatively the IP of the droadlink device, but this requires a static IP)') }}</label>
+        <div class="controls">
+            <input type="text" id="broadlinkpower-search-ip" class="input-block-level" data-bind="value: $root.settings.plugins.broadlinkpower.searchIp">
+        </div>
+    </div>
+    <button type="button" data-bind="text: ($root.loading() ? 'Searching...' : 'Search for devices'), click: $root.getDevices, attr: { disabled: $root.loading }"></button>
+    <p>Searching network: <span data-bind="text: $root.settings.plugins.broadlinkpower.searchIp"></span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>{{ _('Name') }}</th>
+          <th>{{ _('Model') }}</th>
+          <th>{{ _('MAC Address') }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: $root.devices">
+        <tr>
+          <td data-bind="text: name"></td>
+          <td data-bind="text: model"></td>
+          <td data-bind="text: mac"></td>
+          <td data-bind="click: () => $root.settings.plugins.broadlinkpower.mac(mac)"><i class="fa fa-check-circle"></i></td>
+        </tr>
+      </tbody>
+    </table>
+</form>
