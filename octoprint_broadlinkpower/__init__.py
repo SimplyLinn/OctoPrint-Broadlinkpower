@@ -26,7 +26,9 @@ class BroadlinkpowerPlugin(octoprint.plugin.StartupPlugin,
 
 	def list_devices(self, discoverIp):
 		devices = broadlink.discover(discover_ip_address = discoverIp)
-		return dict(devices=[dict(mac=d.mac.hex(':').upper(),name=d.name,model=d.model) for d in devices])
+		split = lambda s: ':'.join(s[i:i+2] for i in range(0, len(s), 2))
+		macStr = lambda m: split(m.hex().upper())
+		return dict(devices=[dict(mac=macStr(d.mac),name=d.name,model=d.model) for d in devices])
 
 	##~~ StartupPlugin mixin
 	def on_after_startup(self):
@@ -116,7 +118,7 @@ class BroadlinkpowerPlugin(octoprint.plugin.StartupPlugin,
 		return response
 
 __plugin_name__ = "Broadlinkpower"
-__plugin_pythoncompat__ = ">=2.7,<4"
+__plugin_pythoncompat__ = ">=3.5,<4"
 def __plugin_load__():
 	global __plugin_implementation__
 	__plugin_implementation__ = BroadlinkpowerPlugin()
